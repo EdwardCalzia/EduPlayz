@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Hangman Game</title>
+    <style>
+      * {
+        color: white;
+      }
+      #hangman {
+        margin-bottom: 10px;
+      }
+      .letter {
+        border: 1px solid #ffffff;
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        margin: 5px;
+        font-size: 20px;
+      }
+      .red {
+        color: red;
+      }
+    </style>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography,forms"></script>
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-cyborg-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+  </head>
+
+<body>
+
+  <!-- ***** Header Area Start ***** -->
+
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="index.html" class="logo">
+                      <img src="assets\images\Screenshot_2023-02-17_150810-removebg-preview.png" alt="">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+
+                    <ul class="nav">
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li style="color: #000000"><a href="">About</a></li>
+                        <li style="color: #000000"><a href="">Blog</a></li>
+                        <li></li>
+                    </ul>   
+
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-content">
+
+          <!-- ***** Banner Start ***** -->
+          <div class="main-banner">
+            <div class="row">
+              <div class="col-lg-7">
+                <div class="header-text">
+                  <h6>Welcome To</h6>
+                  <h4><em>Elemental </em>Escape</h4>
+                  <canvas id="hangman" width="200" height="200"></canvas>
+    <div id="clue"></div>
+    <div id="word"></div>
+    <div id="letters"></div>
+    <button id="skip" style="color: #f49bf6;
+                              margin-top: 10px; margin-left: 40px;   text-decoration: underline;
+  text-underline-offset: 0.4em;
+">Skip</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12" >
+          <p> <span style="color: #ec6090">Copyright © 2023 <a href="#">EduPlayz</a>. All rights reserved. </span></p>
+          
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // Set up game variables
+    const elements = [
+      { name: 'hydrogen', clue: 'Clue: A colorless, odorless gas that is the most abundant element in the universe' },
+      { name: 'helium', clue: 'Clue: A gas that is lighter than air and is commonly used to fill balloons' },
+      { name: 'lithium', clue: 'Clue: A soft, silvery-white metal that is the lightest metal and is used in batteries' },
+      { name: 'beryllium', clue: 'Clue: A hard, brittle, gray metal that is used in alloys with copper or nickel' },
+      { name: 'boron', clue: 'Clue: A metalloid that is an important component of many high-tech materials' },
+      { name: 'carbon', clue: 'Clue: An element that is the basis for all known life on Earth' },
+      { name: 'nitrogen', clue: 'Clue: A gas that makes up about 78% of the Earth\'s atmosphere' },
+      { name: 'oxygen', clue: 'Clue: A gas that makes up about 21% of the Earth\'s atmosphere' },
+      { name: 'fluorine', clue: 'Clue: A highly reactive, pale yellow gas that is used in many industrial applications' },
+      { name: 'neon', clue: 'Clue: A gas that is commonly used in signs and lighting' },
+      { name: 'sodium', clue: 'Clue: A soft, silvery-white metal that is highly reactive and is often used to create table salt' },
+      { name: 'magnesium', clue: 'Clue: A metal that is important for many biological processes and is used in alloys with aluminum' },
+      { name: 'aluminum', clue: 'Clue: A lightweight, silvery-white metal that is commonly used in construction and packaging' },
+      { name: 'silicon', clue: 'Clue: A metalloid that is essential for the production of computer chips and other electronics' },
+      { name: 'phosphorus', clue: 'Clue: An element that is essential for all living organisms and is used in fertilizers and other industrial applications' },
+      { name: 'sulfur', clue: 'Clue: A yellow, brittle, nonmetallic element that is used in many industrial applications, including the production of sulfuric acid' },
+      { name: 'chlorine', clue: 'Clue: A greenish-yellow gas that is used to disinfect water and is a part of table salt' },
+      { name: 'argon', clue: 'Clue: A gas that is the third most abundant gas in the Earth\'s atmosphere' },
+      { name: 'potassium', clue: 'Clue: A soft, silvery-white metal that is highly reactive and is important for many biological processes' },
+      { name: 'calcium', clue: 'Clue: An essential mineral that is important for strong bones and teeth' },
+      { name: 'scandium', clue: 'Clue: A rare, silvery-white metal that is used in some alloys and in high-intensity lamps' },
+      { name: 'titanium', clue: 'Clue: A strong, lightweight metal that is used in many industrial and medical applications' },
+      { name: 'vanadium', clue: 'Clue: A hard, silvery-gray metal that is used in some alloys and as a catalyst' },
+      { name: 'chromium', clue: 'Clue: A hard, shiny, gray metal that is used in many alloys and as a plating material' },
+      { name: 'manganese', clue: 'Clue: A hard, gray metal that is used in many alloys and as a battery cathode' },
+      { name: 'iron', clue: 'Clue: A metal that is the most commonly used in the world' },
+      { name: 'cobalt', clue: 'Clue: A hard, silvery-gray metal that is used in many alloys, magnets, and batteries' },
+      { name: 'nickel', clue: 'Clue: A silvery-white metal that is used in many alloys, including stainless steel' },
+      { name: 'copper', clue: 'Clue: A metal that has been used by humans for thousands of years, and is still used today in wiring and plumbing' },
+      { name: 'zinc', clue: 'Clue: A bluish-white metal that is used in many alloys and is an essential nutrient for humans' },
+      { name: 'gallium', clue: 'Clue: A soft, silvery-white metal that is used in some semiconductors and LEDs' },
+      { name: 'germanium', clue: 'Clue: A metalloid that is used in some semiconductors and optical fibers' },
+      { name: 'arsenic', clue: 'Clue: A metalloid that is highly toxic and is used in some pesticides and alloys' },
+      { name: 'selenium', clue: 'Clue: A nonmetal that is important for many biological processes and is used in some solar cells' },
+      { name: 'bromine', clue: 'Clue: A reddish-brown liquid that is highly reactive and is used in some flame retardants and water purification systems' },
+      { name: 'krypton', clue: 'Clue: A gas that is used in some high-speed photography and in some light bulbs' },
+      { name: 'rubidium', clue: 'Clue: A soft, silvery-white metal that is highly reactive and is used in some atomic clocks and as a component of some special glasses' },
+      { name: 'strontium', clue: 'Clue: A soft, silvery-white metal that is highly reactive and is used in some fireworks and as a component of some special glasses' },
+      { name: 'yttrium', clue: 'Clue: A rare, silvery-white metal that is used in some alloys and in some LEDs' },
+      { name: 'zirconium', clue: 'Clue: A strong, lightweight metal that is used in some alloys and in some nuclear reactors' },
+      { name: 'niobium', clue: 'Clue: A soft, gray metal that is used in some alloys and in some superconducting magnets' },
+      { name: 'molybdenum', clue: 'Clue: A hard, silvery-white metal that is used in some alloys and as a catalyst' },
+      { name: 'technetium', clue: 'Clue: A radioactive metal that is used in some medical imaging procedures' },
+      { name: 'ruthenium', clue: 'Clue: A hard, silvery-white metal that is used in some alloys and as a catalyst' },
+      { name: 'rhodium', clue: 'Clue: A silvery-white metal that is used in some alloys and as a catalyst' },
+      { name: 'palladium', clue: 'Clue: A silvery-white metal that is used in some alloys and as a catalyst' },
+      { name: 'silver', clue: 'Clue: A precious metal that has been used for money and jewelry for thousands of years' },
+      { name: 'cadmium', clue: 'Clue: A soft, bluish-white metal that is used in some batteries, pigments, and coatings' },
+      { name: 'indium', clue: 'Clue: A soft, silvery-white metal that is used in some alloys, as a component of some touchscreens, and in some solar cells' },
+      { name: 'tin', clue: 'Clue: A silvery-white metal that is used in many alloys and as a coating for other metals' },
+    ];
+
+    let word, guessedLetters, wrongGuesses;
+
+    function setup() {
+      const randomIndex = Math.floor(Math.random() * elements.length);
+      const element = elements[randomIndex];
+      word = element.name.toUpperCase();
+      const clue = element.clue;
+      document.getElementById('clue').textContent = clue;
+      guessedLetters = new Set();
+      wrongGuesses = 0;
+      drawHangman();
+      drawWord();
+      drawLetters();
+    }
+
+    function drawHangman() {
+      const canvas = document.getElementById('hangman');
+      const context = canvas.getContext('2d');
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.lineWidth = 2;
+
+      // Draw scaffold
+      context.strokeStyle = 'white';
+        context.lineWidth = 5; 
+        context.beginPath();
+        context.moveTo(175, 225);
+        context.lineTo(5, 225);
+        context.moveTo(40, 225);
+        context.lineTo(25, 5);
+        context.lineTo(100, 5);
+        context.lineTo(100, 25);
+        context.stroke();
+      // Draw head
+      if (wrongGuesses >= 1) {
+        context.lineWidth = 5;
+        context.beginPath();
+        context.arc(100, 50, 25, 0, Math.PI*2, true);
+        context.closePath();
+        context.stroke();
+      }
+
+      // Draw body
+      if (wrongGuesses >= 2) {
+        context.beginPath();
+        context.moveTo(100, 75);
+        context.lineTo(100, 140);
+        context.stroke();
+      }
+
+      // Draw left arm
+      if (wrongGuesses >= 3) {
+        context.beginPath();
+        context.moveTo(100, 85);
+        context.lineTo(140, 100);
+        context.stroke();
+      }
+
+      // Draw right arm
+      if (wrongGuesses >= 4) {
+        context.beginPath();
+        context.moveTo(100, 85);
+        context.lineTo(60, 100);
+        context.stroke();
+      }
+
+      // Draw left leg
+      if (wrongGuesses >= 5) {
+        context.beginPath();
+        context.moveTo(100, 140);
+        context.lineTo(125, 190);
+        context.stroke();
+      }
+
+      // Draw right leg
+      if (wrongGuesses >= 6) {
+        context.beginPath();
+        context.moveTo(100, 140);
+        context.lineTo(80, 190);
+        context.stroke();
+      }
+    }
+
+    function drawWord() {
+      const wordContainer = document.getElementById('word');
+      wordContainer.innerHTML = '';
+      for (const letter of word) {
+        const letterContainer = document.createElement('div');
+        letterContainer.classList.add('letter');
+        if (guessedLetters.has(letter)) {
+          letterContainer.textContent = letter;
+        }
+        wordContainer.appendChild(letterContainer);
+      }
+      if (isGameOver()) {
+      }
+    }
+
+    function drawLetters() {
+      const letterContainer = document.getElementById('letters');
+      letterContainer.innerHTML = '';
+      for (let i = 65; i <= 90; i++) {
+        const letter = String.fromCharCode(i);
+        const letterButton = document.createElement('button');
+        letterButton.textContent = letter;
+        letterButton.addEventListener('click', function() {
+          if (guessedLetters.has(letter) || isGameOver()) {
+            return;
+          }
+          guessedLetters.add(letter);
+          if (word.indexOf(letter) === -1) {
+            wrongGuesses++;
+            letterButton.classList.add('red');
+            drawHangman();
+          }
+          drawWord();
+        });
+        letterContainer.appendChild(letterButton);
+      }
+    }
+
+    function isGameOver() {
+      return wrongGuesses >= 6 || word.split('').every(letter => guessedLetters.has(letter));
+    }
+
+    setup();
+
+
+    const skipButton = document.getElementById('skip');
+    skipButton.addEventListener('click', setup);
+  </script>
+
+  </body>
+
+</html>

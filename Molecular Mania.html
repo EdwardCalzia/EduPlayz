@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>EduPlayz</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography,forms"></script>
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-cyborg-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+  </head>
+
+<body>
+
+  <!-- ***** Header Area Start ***** -->
+
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="index.html" class="logo">
+                      <img src="assets\images\Screenshot_2023-02-17_150810-removebg-preview.png" alt="">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+
+                    <ul class="nav">
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="">About</a></li>
+                        <li><a href="">Blog</a></li>
+                        <li></li>
+                    </ul>   
+
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-content">
+          <div class="main-banner">
+            <div class="row">
+              <div class="col-lg-7">
+                <div class="header-text">
+                  <h6>Welcome To</h6>
+                  <h4><em>Molecular</em> Mania</h4>
+                  <p style="color: #f8d7ff; margin-bottom: 10px;">In this game, you will have 10 seconds per question to name the IUPAC name of the chemical formula. If you run out of time or get the incorrect answer you will loose a strike. You will start with 3 strikes and the goal is to answer as many questions as possible.</p> 
+                  <div id="start-page">
+                    <button id="start">Start Game</button>
+                  </div>
+                  <div id="quiz-page" class="hidden">
+                    <div>
+                      <div id="question"></div>
+                      <input type="text" id="answer" placeholder="Enter your answer">
+                      <button id="submit" disabled>Submit</button>
+                      <button id="next" disabled>Next</button>
+                      <div id="result"></div>
+                      <div id="score">Score: <span id="score-value">0</span></div>
+                      <div id="strike">Strikes: <span id="strike-value">3</span></div>
+              
+                      <div id="timer"></div>
+                    </div>
+                  </div>
+                  <div id="finish-page" class="hidden">
+                    <h1>Game Complete!</h1>
+                    <div id="score">Final Score: <span id="final-score-value"></span></div>
+                    <button id="replay">Replay</button>
+                  </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12" >
+          <p> <span style="color: #ec6090">Copyright © 2023 <a href="#">EduPlayz</a>. All rights reserved. </span></p>
+          
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <script>
+    const molecules = [
+    { name: 'Water', formula: 'H2O', iupac: 'Oxane' },
+    { name: 'Methane', formula: 'CH4', iupac: 'Methane' },
+    { name: 'Carbon Dioxide', formula: 'CO2', iupac: 'Carbon Dioxide' },
+    { name: 'Ethanol', formula: 'C2H5OH', iupac: 'Ethanol' },
+    { name: 'Copper Sulfate', formula: 'CuSO4', iupac: 'Copper(II) Sulfate' },
+    { name: 'Sulfuric Acid', formula: 'H2SO4', iupac: 'Sulfuric Acid' },
+    { name: 'Nitrous Oxide', formula: 'N2O', iupac: 'Nitrous Oxide' },
+    { name: 'Ozone', formula: 'O3', iupac: 'Ozone' },
+    { name: 'Carbon Monoxide', formula: 'CO', iupac: 'Carbon Monoxide' },
+    { name: 'Sodium Chloride', formula: 'NaCl', iupac: 'Sodium Chloride' },
+    { name: 'Hydrochloric Acid', formula: 'HCl', iupac: 'Hydrogen Chloride' },
+    { name: 'Iron(III) Oxide', formula: 'Fe2O3', iupac: 'Iron(III) Oxide' },
+    { name: 'Nitric Acid', formula: 'HNO3', iupac: 'Nitric Acid' },
+    { name: 'Butane', formula: 'C4H10', iupac: 'Butane' },
+    { name: 'Ethene', formula: 'C2H4', iupac: 'Ethene' },
+    { name: 'Cadmium Sulfide', formula: 'CdS', iupac: 'Cadmium Sulfide' },
+    { name: 'Ammonia', formula: 'NH3', iupac: 'Azane' },
+    { name: 'Hydrogen Peroxide', formula: 'H2O2', iupac: 'Hydrogen Peroxide' },
+    { name: 'Methanol', formula: 'CH3OH', iupac: 'Methanol' },
+    { name: 'Acetone', formula: 'C3H6O', iupac: 'Propanone' },
+    { name: 'Benzene', formula: 'C6H6', iupac: 'Benzene' },
+    { name: 'Caffeine', formula: 'C8H10N4O2', iupac: '1,3,7-Trimethylxanthine' },
+    { name: 'Sucrose', formula: 'C12H22O11', iupac: 'Sucrose' },
+    { name: 'Acetic Acid', formula: 'CH3COOH', iupac: 'Ethanoic Acid' },
+    { name: 'Aspirin', formula: 'C9H8O4', iupac: 'Acetylsalicylic Acid' },
+    { name: 'Chloroform', formula: 'CHCl3', iupac: 'Trichloromethane' },
+    { name: 'Glycerol', formula: 'C3H8O3', iupac: 'Propane-1,2,3-triol' },
+    { name: 'Adrenaline', formula: 'C9H13NO3', iupac: 'Epinephrine' },
+    { name: 'Ascorbic Acid', formula: 'C6H8O6', iupac: 'L-Ascorbic Acid' },
+    { name: 'Carbon Tetrachloride', formula: 'CCl4', iupac: 'Tetrachloromethane' },
+    { name: 'Citric Acid', formula: 'C6H8O7', iupac: '2-Hydroxy-1,2,3-propanetricarboxylic Acid' },
+    { name: 'Dopamine', formula: 'C8H11NO2', iupac: '3,4-Dihydroxyphenethylamine' },
+    { name: 'Formic Acid', formula: 'HCOOH', iupac: 'Methanoic Acid' },
+    { name: 'Glucose', formula: 'C6H12O6', iupac: 'D-Glucose' },
+    { name: 'Glycine', formula: 'C2H5NO2', iupac: 'Aminoacetic Acid' },
+    ];
+    
+    const startButton = document.getElementById('start');
+      const quizPage = document.getElementById('quiz-page');
+      const finishPage = document.getElementById('finish-page');
+      const replayButtons = document.querySelectorAll('#replay');
+    
+      startButton.addEventListener('click', startQuiz);
+      replayButtons.forEach(button => button.addEventListener('click', startQuiz));
+    
+      let score = 0;
+      let currentQuestion = 0;
+      let timerId = null;
+      let timeRemaining = 10;
+      let strikes = 3;
+    
+      function startQuiz() {
+        strikes = 3;
+        score = 0;
+        currentQuestion = 0;
+        timeRemaining = 10;
+        showQuizPage();
+        showQuestion();
+        startTimer();
+        updateScore();
+        updateStrikes();
+    
+      }
+    
+      function showQuizPage() {
+        document.getElementById('start-page').classList.add('hidden');
+        quizPage.classList.remove('hidden');
+        finishPage.classList.add('hidden');
+      }
+    
+      function showQuestion() {
+        const question = molecules[currentQuestion];
+        document.getElementById('question').textContent = `What is the IUPAC name for ${question.formula}?`;
+        document.getElementById('answer').value = '';
+        document.getElementById('submit').disabled = false;
+        document.getElementById('next').disabled = true;
+        document.getElementById('result').textContent = '';
+      }
+    
+      function startTimer() {
+        clearInterval(timerId);
+        timerId = setInterval(() => {
+          timeRemaining--;
+          document.getElementById('timer').textContent = `Time Remaining: ${timeRemaining}`;
+          if (timeRemaining === 0) {
+            strikes--;
+        updateStrikes();
+        if (strikes === 0) {
+          endQuiz();
+        }
+        handleNextQuestion()
+          }
+        }, 1000);
+      }
+    
+      function updateScore() {
+        document.getElementById('score-value').textContent = score;
+      }
+    
+      function updateStrikes() {
+      document.getElementById('strike-value').textContent = strikes;
+    }
+    
+      function endQuiz() {
+        clearInterval(timerId);
+        quizPage.classList.add('hidden');
+        finishPage.classList.remove('hidden');
+        document.getElementById('final-score-value').textContent = score;
+      }
+    
+      function handleAnswerSubmission() {
+        const userAnswer = document.getElementById('answer').value;
+        const correctAnswer = molecules[currentQuestion].iupac;
+        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+          document.getElementById('result').textContent = 'Correct!';
+          score++;
+        } else {
+          document.getElementById('result').textContent = `Incorrect. The correct answer was ${correctAnswer}.`;
+          strikes--;
+          updateStrikes();
+          if (strikes === 0) {
+            endQuiz();
+        }   
+       }
+        document.getElementById('submit').disabled = true;
+        document.getElementById('next').disabled = false;
+        updateScore();
+        clearInterval(timerId);
+     
+      }
+      function handleNextQuestion() {
+        currentQuestion++;
+        if (currentQuestion === molecules.length) {
+          endQuiz();
+        } else {
+          timeRemaining = 10;
+          showQuestion();
+          startTimer();
+        }
+      }
+    
+      function handleRestartQuiz() {
+        quizPage.classList.add('hidden');
+        finishPage.classList.add('hidden');
+        document.getElementById('start-page').classList.remove('hidden');
+      }
+    
+      document.getElementById('submit').addEventListener('click', handleAnswerSubmission);
+      document.getElementById('next').addEventListener('click', handleNextQuestion);
+      document.getElementById('replay').addEventListener('click', handleRestartQuiz);
+    
+    </script>
+  </body>
+
+</html>
+
+
+
